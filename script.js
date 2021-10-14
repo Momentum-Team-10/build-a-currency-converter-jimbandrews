@@ -9,7 +9,7 @@ let button = document.createElement("button");
 button.innerText = "Convert";
 container.appendChild(button);
 
-// Method 1
+
 // initialize empty object called rates
 let rates = {}
 let currencies = []
@@ -37,6 +37,9 @@ fetch('https://openexchangerates.org/api/latest.json?app_id=40cd1c027de1479c9ff3
     })
 
 button.addEventListener('click', () => {
+    if (document.getElementById("equality")) {
+        document.getElementById("equality").remove()
+    }
     let selectionFrom = convertFrom[convertFrom.selectedIndex].innerText
     let selectionTo = convertTo[convertTo.selectedIndex].innerText
     rateTo = rates[selectionTo];
