@@ -1,12 +1,8 @@
-// initializing root and filling it with a container div, and that with a select tag
+// initializing root and select tags
 const root = document.getElementById("root");
-const container = document.createElement("div");
-root.appendChild(container);
-const convertFrom = document.createElement('select');
-// container.appendChild(convertFrom);
-const convertTo = document.createElement('select');
-// container.appendChild(convertTo)
-container.innerHTML = "<p>Convert from convertFrom to convertTo</p>"
+const container = document.getElementById("container");
+const convertFrom = document.getElementById("convertFrom");
+const convertTo = document.getElementById("convertTo");
 
 // create a Convert button and place it in container
 let button = document.createElement("button");
@@ -25,24 +21,38 @@ fetch('https://openexchangerates.org/api/latest.json?app_id=40cd1c027de1479c9ff3
     .then(data => {
         rates = data.rates;
         currencies = Object.keys(rates)
+
         for (currency of currencies) {
             let option1 = document.createElement('option');
             option1.innerText = currency;
-            convertFrom.appendChild(option1);
             let option2 = document.createElement('option');
             option2.innerText = currency;
+            if (currency === "USD") {
+                option1.setAttribute("selected", "true");
+                option2.setAttribute("selected", "true");
+            }
+            convertFrom.appendChild(option1);
             convertTo.appendChild(option2);
         }
     })
 
 button.addEventListener('click', () => {
-    let selection = convertFrom[convertFrom.selectedIndex].innerText
-    console.log(rates[selection])
+    let selectionFrom = convertFrom[convertFrom.selectedIndex].innerText
+    let selectionTo = convertTo[convertTo.selectedIndex].innerText
+    rateTo = rates[selectionTo];
+    rateFrom = rates[selectionFrom];
+    let equality = document.createElement('p');
+    equality.id = "equality"
+    let rate = rateTo/rateFrom;
+
+    equality.innerText = `1 ${selectionFrom} = ${rate} ${selectionTo}`;
+    container.appendChild(equality);
 })
 
 
-
-
+// last line should have input box USD = ___ USD
+// let equation = document.createElement("p");
+// equation.innerHTML = `<input> ${selectionFrom} = ___ ${selectionTo}`
 
 
 
@@ -91,13 +101,58 @@ button.addEventListener('click', () => {
 // }
 
 
-button.addEventListener('click', () => {
-    // fetch('https://openexchangerates.org/api/latest.json?app_id=40cd1c027de1479c9ff379d356eab30a&base=USD')
-    // .then(response => response.json())
-    // .then(data => {
-    //     selection = dropDown[dropDown.selectedIndex].innerText
-    //     let selectedRate = document.createElement('p')
-    //     selectedRate.innerText = data.rates[selection]
-    //     container.appendChild(selectedRate)
+// button.addEventListener('click', () => {
+//     fetch('https://openexchangerates.org/api/latest.json?app_id=40cd1c027de1479c9ff379d356eab30a&base=USD')
+//     .then(response => response.json())
+//     .then(data => {
+//         selection = dropDown[dropDown.selectedIndex].innerText
+//         let selectedRate = document.createElement('p')
+//         selectedRate.innerText = data.rates[selection]
+//         container.appendChild(selectedRate)
+//     })
+// })
+
+
+// fetch('https://openexchangerates.org/api/latest.json?app_id=40cd1c027de1479c9ff379d356eab30a&base=USD')
+
+// .then(response => response.json())
+// .then(data => {
+//     let currencies = Object.keys(data.rates)
+
+//     for (let currency of currencies) {
+//         let option1 = document.createElement('option')
+//         option1.innerText = currency
+//         let option2 = document.createElement('option');
+//         option2.innerText = currency;
+//         if (currency === "USD") {
+//             option1.setAttribute("selected", "true");
+//             option2.setAttribute("selected", "true");
+//         }
+//         convertFrom.appendChild(option1);
+//         convertTo.appendChild(option2);
+//     }
+// })
+
+// button.addEventListener('click', () => {
+//     let 
+// })
+
+
+    // .then( () => {
+    //     let selectionFrom = convertFrom[convertFrom.selectedIndex].innerText
+    //     let selectionTo = convertTo[convertTo.selectedIndex].innerText
+
+    //     let rateTo = currencies.selectionTo
+    //     console.log(rateTo)
+    //     let rateFrom = currencies.`${selectionFrom}`
+
+    //     let equation = document.createElement("p");
+    //     equation.innerHTML = `${rateFrom} ${selectionFrom} = ${rateTo} ${selectionTo}`
+    //     root.appendChild(equation);
+
+    //     button.addEventListener('click', () => {
+    //         let selectionFrom = convertFrom[convertFrom.selectedIndex].innerText
+    //         let selectionTo = convertTo[convertTo.selectedIndex].innerText
+            
+    //     })
     // })
-})
